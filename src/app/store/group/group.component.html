@@ -1,0 +1,38 @@
+<h5 class="mb-3 ml-3">{{groupTitle}}</h5>
+<div class="row">
+  <div *ngIf="loading" class="container">
+    <p class="text-center">
+      <img src="assets/circle_upload.gif" />
+    </p>
+  </div>
+  <div *ngIf="error" class="container">
+    <p class="text-center">Ошибка при получении списка товаров</p>
+  </div>
+  <div *ngFor="let product of selectedProducts" class="col-lg-4 col-md-6 col-sm-6">
+    <div class="card mb-4 box-shadow mx-auto custom_card">
+      <a [routerLink]='["/product", product.id]'>
+        <img class="card-img-top custom_card-img-top" width="250" height="250" *ngIf="product.images && product.images.length>0"
+          src='api/image?id={{product.images[0].thumbIds[250]}}'>
+      </a>
+      <div class="card-body">
+        <p class="card-text">{{product.title}}</p>
+        <p class="card-text" *ngIf="product.description">{{product.description}}</p>
+
+        <div *ngIf="oneVariation(product)">
+          <div class="text-muted" *ngIf="!product.variations[0].withoutCount">В наличии: {{product.variations[0].inventoryCount}}</div>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="btn-group">
+            <button type="button" class="btn btn-sm btn-outline-secondary" [routerLink]='["/product", product.id]'>Подробнее</button>
+            <button type="button" class="btn btn-sm btn-outline-primary" *ngIf="oneVariation(product)" (click)="addToCart(product.id, product.variations[0].id)">
+              <img src="data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTguMS4xLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDE5LjI1IDE5LjI1IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAxOS4yNSAxOS4yNTsiIHhtbDpzcGFjZT0icHJlc2VydmUiIHdpZHRoPSIxNnB4IiBoZWlnaHQ9IjE2cHgiPgo8Zz4KCTxnIGlkPSJMYXllcl8xXzEwN18iPgoJCTxnPgoJCQk8cGF0aCBkPSJNMTkuMDA2LDIuOTdjLTAuMTkxLTAuMjE5LTAuNDY2LTAuMzQ1LTAuNzU2LTAuMzQ1SDQuNDMxTDQuMjM2LDEuNDYxICAgICBDNC4xNTYsMC45NzksMy43MzksMC42MjUsMy4yNSwwLjYyNUgxYy0wLjU1MywwLTEsMC40NDctMSwxczAuNDQ3LDEsMSwxaDEuNDAzbDEuODYsMTEuMTY0YzAuMDA4LDAuMDQ1LDAuMDMxLDAuMDgyLDAuMDQ1LDAuMTI0ICAgICBjMC4wMTYsMC4wNTMsMC4wMjksMC4xMDMsMC4wNTQsMC4xNTFjMC4wMzIsMC4wNjYsMC4wNzUsMC4xMjIsMC4xMiwwLjE3OWMwLjAzMSwwLjAzOSwwLjA1OSwwLjA3OCwwLjA5NSwwLjExMiAgICAgYzAuMDU4LDAuMDU0LDAuMTI1LDAuMDkyLDAuMTkzLDAuMTNjMC4wMzgsMC4wMjEsMC4wNzEsMC4wNDksMC4xMTIsMC4wNjVjMC4xMTYsMC4wNDcsMC4yMzgsMC4wNzUsMC4zNjcsMC4wNzUgICAgIGMwLjAwMSwwLDExLjAwMSwwLDExLjAwMSwwYzAuNTUzLDAsMS0wLjQ0NywxLTFzLTAuNDQ3LTEtMS0xSDYuMDk3bC0wLjE2Ni0xSDE3LjI1YzAuNDk4LDAsMC45Mi0wLjM2NiwwLjk5LTAuODU4bDEtNyAgICAgQzE5LjI4MSwzLjQ3OSwxOS4xOTUsMy4xODgsMTkuMDA2LDIuOTd6IE0xNy4wOTcsNC42MjVsLTAuMjg1LDJIMTMuMjV2LTJIMTcuMDk3eiBNMTIuMjUsNC42MjV2MmgtM3YtMkgxMi4yNXogTTEyLjI1LDcuNjI1djIgICAgIGgtM3YtMkgxMi4yNXogTTguMjUsNC42MjV2MmgtM2MtMC4wNTMsMC0wLjEwMSwwLjAxNS0wLjE0OCwwLjAzbC0wLjMzOC0yLjAzSDguMjV6IE01LjI2NCw3LjYyNUg4LjI1djJINS41OTdMNS4yNjQsNy42MjV6ICAgICAgTTEzLjI1LDkuNjI1di0yaDMuNDE4bC0wLjI4NSwySDEzLjI1eiIgZmlsbD0iIzAwNkRGMCIvPgoJCQk8Y2lyY2xlIGN4PSI2Ljc1IiBjeT0iMTcuMTI1IiByPSIxLjUiIGZpbGw9IiMwMDZERjAiLz4KCQkJPGNpcmNsZSBjeD0iMTUuNzUiIGN5PSIxNy4xMjUiIHI9IjEuNSIgZmlsbD0iIzAwNkRGMCIvPgoJCTwvZz4KCTwvZz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8L3N2Zz4K"
+              />
+            </button>
+          </div>
+          <small class="text-muted">{{aggregatedPrice(product)}} ₽</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

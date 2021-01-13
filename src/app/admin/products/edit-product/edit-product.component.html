@@ -1,0 +1,114 @@
+<div class="modal-header">
+  <h4 class="modal-title">Свойства</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+
+  <form>
+    <div class="form-group">
+      <label for="title">Название</label>
+      <input type="text" class="form-control" id="title" name="title" [(ngModel)]="currentProduct.title">
+    </div>
+    <div class="form-group">
+      <label for="title">Описание</label>
+      <textarea class="form-control" id="title2" name="title2" [(ngModel)]="currentProduct.description"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="title">Подробное описание</label>
+      <textarea class="form-control" id="title3" name="title3" [(ngModel)]="currentProduct.longDescription"></textarea>
+    </div>
+    <div class="form-group">
+      <div class="form-check">        
+        <input class="form-check-input" type="checkbox" value="" id="usePrimaryColor" name="usePrimaryColor" [(ngModel)]="usePrimaryColor">
+        <label class="form-check-label" for="usePrimaryColor">Основной цвет</label>
+      </div>
+      <div *ngIf="usePrimaryColor">
+        <input #colorInput type="color" [value]="currentProduct.properties.color" (input)="currentProduct.properties.color=$event.target.value"
+        />
+        <!-- <input #colorInputText type="text" [value]="currentProduct.properties.color" (input)="colorInput.value=$event.target.value"/> -->
+        <div>
+          <label class="available-colors_list" *ngFor="let color of availableColors; let i = index" [ngStyle]="{'background-color': color}"
+            (click)="currentProduct.properties.color=color;colorInput.value=color "
+            [title]="color"></label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="useSecondaryColor" name="useSecondaryColor" [(ngModel)]="useSecondaryColor">
+        <label class="form-check-label" for="useSecondaryColor">Второй цвет</label>
+      </div>
+      <div *ngIf="useSecondaryColor">
+        <input #colorInputSecond type="color" [value]="currentProduct.properties.secondaryColor" (input)="currentProduct.properties.secondaryColor=$event.target.value"
+        />
+        <div>
+          <label class="available-colors_list" *ngFor="let color of availableColors; let i = index" [ngStyle]="{'background-color': color}"
+            (click)="currentProduct.properties.secondaryColor=color;colorInputSecond.value=color "
+            [title]="color"></label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <input #file type="file" multiple (change)="uploadImages(file.files)" [disabled]="uploading" />
+      <img *ngIf="uploading" src="assets/circle_upload.gif" />
+    </div>
+    <div class="form-group" class="container" dragula="PRODUCT_IMAGES" [(dragulaModel)]="currentProduct.images">
+      <div *ngFor="let image of currentProduct.images; let i = index">
+        <span class="handle">+</span>
+        <img src='api/image?id={{image.thumbIds[100]}}' (click)="imageClick($event)">
+        <button type="button" class="btn ml-2 btn-warning" (click)="deleteImage(i)">X</button>
+      </div>
+
+    </div>
+
+    <div *ngIf="withoutVariations(currentProduct)">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" name="canBeOrdered" [(ngModel)]="currentProduct.variations[0].canBeOrdered">
+        <label class="form-check-label" for="defaultCheck1">Доступен для заказа </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="withoutCount" name="withoutCount" [(ngModel)]="currentProduct.variations[0].withoutCount">
+        <label class="form-check-label" for="withoutCount">Без количества</label>
+      </div>
+      <div class="form-group">
+        <label for="price">Цена</label>
+        <input type="number" class="form-control" id="price" value="500" name="price" [(ngModel)]="currentProduct.variations[0].price">
+      </div>
+      <div class="form-group">
+        <label for="count">Кол-во (без учёта уже зарезервированного)</label>
+        <input type="number" class="form-control" id="count" value="20" name="count" [(ngModel)]="currentProduct.variations[0].inventoryCount">
+      </div>
+    </div>
+
+    <div *ngIf="!withoutVariations(currentProduct)">
+      <h4>Варианты</h4>
+      <div *ngFor="let variation of currentProduct.variations  | callback: filterArchived; let i = index">
+        <h5>{{variation.title}}</h5>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="" id="canBeOrdered{{i}}" name="canBeOrdered{{i}}" [(ngModel)]="variation.canBeOrdered">
+          <label class="form-check-label" for="canBeOrdered{{i}}">Доступен для заказа </label>
+        </div>
+        <div class="form-group">
+          <label for="price{{i}}">Цена</label>
+          <input type="number" class="form-control" id="price{{i}}" value="500" name="price{{i}}" [(ngModel)]="variation.price">
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="" id="withoutCount{{i}}" name="withoutCount{{i}}" [(ngModel)]="variation.withoutCount">
+          <label class="form-check-label" for="withoutCount{{i}}">Без количества</label>
+        </div>
+        <div class="form-group" *ngIf="!variation.withoutCount">
+          <label for="count{{i}}">Кол-во (без учёта уже зарезервированного)</label>
+          <input type="number" class="form-control" id="count{{i}}" value="20" name="count{{i}}" [(ngModel)]="variation.inventoryCount">
+        </div>
+      </div>
+    </div>
+
+  </form>
+
+</div>
+<div class="modal-footer">
+  <button type="submit" class="btn btn-primary" (click)="SaveProduct();" [disabled]="uploading">Сохранить</button>
+  <button type="button" class="btn btn-outline-dark" (click)="activeModal.dismiss('Cancel click')" [disabled]="uploading">Отменить</button>
+</div>

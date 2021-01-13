@@ -1,0 +1,19 @@
+.custom-list
+{
+    max-width: 700px;
+}
+
+.custom-input
+{
+    max-width: 90px;
+}
+
+.custom-delete
+{
+    width:20px;
+    min-width: 20px;
+}
+.title-with-link
+{
+    cursor: pointer;
+}

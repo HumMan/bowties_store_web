@@ -1,0 +1,29 @@
+.navbar-without-padding
+{
+    padding: .0rem .5rem
+}
+
+.navbar-toggler-icon_smaller
+{
+    width: 1.2em;
+    height: 1.2em;
+}
+
+.scrollable-list.show{
+    max-height: 80vh;
+    margin-bottom: 10px;
+    overflow:auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.custom-cart-link
+{
+    color: rgba(255,255,255,.5);
+    text-decoration: none;
+    background-color: transparent;
+}
+
+.custom-cart-link.active
+{
+    color: #fff;
+}

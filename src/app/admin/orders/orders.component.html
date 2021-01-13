@@ -1,0 +1,26 @@
+<div class="table-responsive">
+  <table class="table table-hover ">
+    <thead>
+      <tr>
+        <th>Создан</th>
+        <th>Заказ</th>
+        <th>Стоимость</th>
+        <th>Статус</th>
+        <th>Товаров</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let order of allOrders; let i = index">
+        <td  class="table-fit">{{toTimeReadable(order.created)}}</td>
+        <td  class="table-fit"><a [routerLink]='["/success", order.id]'>{{order.orderId}}</a></td>
+        <td  class="table-fit">{{order.total}}</td>
+        <td>{{toStatusRedable(order.status)}}
+
+            <button *ngFor="let transition of getOrderTransitions(order)" type="button" class="btn btn-info ml-1" (click)="changeState(i, order.id, order.status, transition.toStatus)">{{transition.title}}</button>
+
+        </td>
+        <td  class="table-fit">{{order.items.length}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

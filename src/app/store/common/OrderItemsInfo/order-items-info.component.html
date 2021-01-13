@@ -1,0 +1,24 @@
+<ul class="list-group my-3" *ngIf="order">
+    <li *ngFor="let item of order.items" class="list-group-item d-flex">
+        <img width="50" height="50" *ngIf="item.product.images && item.product.images.length>0" src='api/image?id={{item.product.images[0].thumbIds[50]}}'>
+        <div class="mx-2">
+
+            <h6 class="my-0 title-with-link" [routerLink]='["/product", item.productId]'>{{getItemTitle(item)}}
+                <span class="text-muted"> ({{item.count}} шт.)</span>
+            </h6>
+            <small class="text-muted">{{item.product.description}}</small>
+        </div>
+        <span class="text-muted ml-auto">{{item.price*item.count}} ₽</span>
+    </li>
+    <li *ngIf="order.deliveryPrice" class="list-group-item d-flex justify-content-between">
+        <div>
+            <h6 class="my-0">Доставка</h6>
+            <small class="text-muted">Почта России</small>
+        </div>
+        <span class="text-muted">{{order.deliveryPrice}} ₽</span>
+    </li>
+    <li class="list-group-item d-flex justify-content-between">
+        <span>Сумма заказа (Руб.)</span>
+        <strong>{{order.total}} ₽</strong>
+    </li>
+</ul>

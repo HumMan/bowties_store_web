@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /admin
+Disallow: /cart
+Disallow: /account
+Sitemap: https://jameskot.ru/api/sitemap/sitemap.xml

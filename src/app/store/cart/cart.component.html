@@ -1,0 +1,58 @@
+<div class="container">
+  <div class="row">
+    <div *ngIf="loading" class="container">
+      <p class="text-center">
+        <img src="assets/circle_upload.gif" />
+      </p>
+    </div>
+    <div *ngIf="error" class="container">
+      <p class="text-center">Ошибка при загрузке корзины</p>
+    </div>
+    <div *ngIf="!loading&&!error" class="col-12 mb-4">
+      <h2>Ваша корзина:</h2>
+      <div class="table-responsive">
+        <div *ngIf="!(cart && cart.items && cart.items.length>0)">
+          Ваша корзина пуста
+        </div>
+        <div *ngIf="(cart && cart.items && cart.items.length>0)">
+          <ul class="list-group my-3 custom-list">
+            <li *ngFor="let item of cart.items; let i=index; trackBy: trackByFn" class="list-group-item d-flex align-items-center">
+              <img width="50" height="50" *ngIf="item.product.images && item.product.images.length>0" src='api/image?id={{item.product.images[0].thumbIds[50]}}'>
+              <div class="mx-2">
+
+                <h6 class="my-0 title-with-link" [routerLink]='["/product", item.productId]'>{{item.title}}
+                  <span class="text-muted d-none d-sm-inline"> ({{item.count}} шт.)</span>
+                </h6>
+                <small class="text-muted d-none d-sm-block">{{item.product.description}}</small>
+                <div *ngIf="!isAvailable(item)">
+                  <div class="alert alert-danger">Недоступен для заказа</div>
+                </div>
+              </div>
+              <span class="text-muted ml-auto">{{item.price}} ₽</span>
+              <div class="mx-2">
+                <input #countInput required type="number" class="form-control custom-input" id="count-{{i}}" min="1" name="count" [ngClass]="{'is-invalid': !countInput.validity.valid || !isCountValid(item) }"
+                  [(ngModel)]="item.count" (ngModelChange)="itemCountChanged(item)">
+                <div class="invalid-feedback" *ngIf="!countInput.validity.valid && isCountValid(item)">
+                  Укажите кол-во
+                  <!-- тут слишком длинные {{countInput.validationMessage}} -->
+                </div>
+                <div class="invalid-feedback" *ngIf="countInput.validity.valid && !isCountValid(item)">
+                  Доступно: {{item.available}}
+                </div>
+              </div>
+              <span class="text-muted d-none d-md-block">= {{item.price*item.count}} ₽</span>
+              <img class="custom-delete ml-2 title-with-link" src="/assets/delete.svg" (click)="removeFromCart(item, countInput)">
+            </li>
+          </ul>
+          <div>
+            <span>Сумма заказа: {{cart.itemsTotal}} ₽</span>
+            <hr class="mb-4">
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary btn-lg" [routerLink]='["/checkout"]'>Заказать</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,65 @@
+<div *ngIf="order">
+
+
+  <div *ngIf="order.status==1">
+    <h2>Ваш заказ {{order.orderId}} успешно зарезервирован</h2>
+    <p class="lead">Вам необходимо выполнить оплату заказа. Для оплаты нажмите кнопку ниже.</p>
+    <h6 class="mb-3">Зарезервирован до:
+      <small>{{toDateTimeReadable(order.reservedUntil)}}</small>
+    </h6>
+    <form #yandexPaymentForm (ngSubmit)="paymentRedirect()" method="POST" action="https://money.yandex.ru/quickpay/confirm.xml">
+      <input type="hidden" name="receiver" value="410015021002104">
+      <input type="hidden" name="formcomment" value="JamesKot заказ {{order.orderId}}">
+      <input type="hidden" name="short-dest" value="JamesKot заказ {{order.orderId}}">
+      <input type="hidden" name="label" value="{{order.id}}">
+      <input type="hidden" name="quickpay-form" value="donate">
+      <input type="hidden" name="targets" value="JamesKot заказ {{order.orderId}}">
+      <input type="hidden" name="sum" value="{{order.total}}" data-type="number">
+      <input type="hidden" name="comment" value="JamesKot заказ {{order.orderId}}">
+      <input type="hidden" name="successURL" value="https://jameskot.ru/success/{{order.id}}">
+      <input type="hidden" name="need-fio" value="false">
+      <input type="hidden" name="need-email" value="false">
+      <input type="hidden" name="need-phone" value="false">
+      <input type="hidden" name="need-address" value="false">
+      <input type="hidden" name="paymentType" value="{{order.parameters.paymentType===1?'AC':'PC'}}">
+      <button type="submit" class="btn btn-primary btn-lg btn-block">Перейти на страницу оплаты</button>
+    </form>
+  </div>
+
+  <div *ngIf="order.status==2">
+    <!-- <img class="d-block mx-auto mb-4" src="../../assets/brand/bootstrap-solid.svg" alt="" width="72" height="72"> -->
+    <h2>Ваш заказ {{order.orderId}} успешно зарезервирован</h2>
+    <p class="lead">В ближайшее время мы свяжемся с вами указанным вами способом для уточнения деталей доставки. Вы также можете сами позвонить
+      нам по телефону 8(906)653-11-40.</p>
+    <h6 class="mb-3">Зарезервирован до:
+      <small>{{toDateTimeReadable(order.reservedUntil)}}</small>
+    </h6>
+  </div>
+
+  <div *ngIf="order.status==3">
+    <div class="py-5 text-center">
+      <h2>Заказ отменён</h2>
+      <p class="lead">Заказ был отменён, либо не был вовремя оплачен.</p>
+    </div>
+  </div>
+
+  <div *ngIf="order.status==4">
+    <div class="py-5 text-center">
+      <h2>Заказ успешно оплачен</h2>
+      <p class="lead">Заказ готовится к отправке</p>
+    </div>
+  </div>
+
+  <div *ngIf="order.status==5">
+    <div *ngIf="order.parameters.deliveryType==0" class="py-5 text-center">
+      <h2>Заказ {{order.orderId}} отправлен почтой</h2>
+      <p class="lead">Вам осталось дождаться когда товар придёт к вам почтой по указанному вами адресу.</p>
+    </div>
+
+    <div *ngIf="order.parameters.deliveryType==1" class="py-5 text-center">
+      <h2>Заказ {{order.orderId}} ожидает самовывоза</h2>
+      <p class="lead">Вам осталось уточнить время и место передачи товара.</p>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,15 @@
+<div *ngIf="order" class="container">
+  <app-store-common-order-status [order]="order"></app-store-common-order-status>
+  <app-store-common-order-items-info [order]="order"></app-store-common-order-items-info>
+  <app-store-common-order-info [order]="order"></app-store-common-order-info>
+</div>
+<div *ngIf="orderNotFound" class="container">
+  <p class="text-center">Данный заказ не существует или недоступен</p>
+</div>
+<div *ngIf="error" class="container">
+  <p class="text-center">Ошибка при получении информации о заказе</p>
+  <!-- <p class="text-center text-muted small">{{error}}</p> -->
+</div>
+<div *ngIf="loading" class="container">
+  <p class="text-center"><img src="assets/circle_upload.gif" /></p>  
+</div>

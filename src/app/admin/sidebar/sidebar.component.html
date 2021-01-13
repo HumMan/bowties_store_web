@@ -1,0 +1,22 @@
+<nav class="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar">
+  <ul class="nav nav-pills flex-column">
+	<li class="nav-item">
+	  <a class="nav-link" [class.active]="router.url==='/admin/groups'" [routerLink]='["groups"]'>Группы</a>
+	</li>
+	<li class="nav-item">
+	  <a class="nav-link" [class.active]="router.url==='/admin/products'||router.url==='/admin'" [routerLink]='["products"]'>Товары</a>
+	</li>
+	<li class="nav-item" *ngIf="isAdmin">
+	  <a class="nav-link" [class.active]="router.url==='/admin/users'" [routerLink]='["users"]'>Пользователи</a>
+	</li>
+	<!-- <li class="nav-item">
+	  <a class="nav-link" [class.active]="router.url==='/admin/carts'" [routerLink]='["carts"]'>Корзины</a>
+	</li> -->
+	<li class="nav-item">
+	  <a class="nav-link" [class.active]="router.url==='/admin/orders'" [routerLink]='["orders"]'>Заказы</a>
+	</li>
+	<li class="nav-item">
+	  <a class="nav-link" [class.active]="router.url==='/admin/settings'" [routerLink]='["settings"]'>Настройки</a>
+	</li>
+  </ul>
+</nav>

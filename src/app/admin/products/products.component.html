@@ -1,0 +1,50 @@
+<h2>Товары</h2>
+<div class="form-group">
+  <label for="sel1">Группа товаров</label>
+  <select class="form-control" id="sel1" [(ngModel)]="selectedGroup" (change)="GroupChange()">
+    <option *ngFor="let group of groups; let i = index" [value]='group.id'>{{group.title}}/{{group.subtitle}}</option>
+  </select>
+</div>
+<button type="button" class="btn btn-primary" (click)="CreateProduct()" [disabled]="selectedGroup===null">Добавить товар</button>
+
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th></th>
+        <th>Название</th>
+        <th>Цена</th>
+        <th>Доступен для заказа</th>
+        <th>Кол-во</th>
+        <th>Цвет</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody class="container" dragula="PRODUCTS" [(dragulaModel)]="products">
+      <tr *ngFor="let product of products; let i = index">
+        <td>
+          <span class="handle">+</span>
+        </td>
+        <td>
+          <img *ngIf="product.images && product.images.length>0" src='api/image?id={{product.images[0].thumbIds[50]}}'>
+        </td>
+        <td>
+          <a [routerLink]='["/product", product.id]'>{{product.title}}</a>
+        </td>
+        <td>{{availablePrice(product)}}</td>
+        <td>{{availability(product)}}</td>
+        <td>{{availableCount(product)}}</td>
+        <td>
+          <label *ngIf="product.properties.color" [title]="product.properties.color" class="available-colors_list" [ngStyle]="{'background-color': product.properties.color}"></label>
+          <label *ngIf="product.properties.secondaryColor" [title]="product.properties.secondaryColor" class="available-colors_list"
+            [ngStyle]="{'background-color': product.properties.secondaryColor}"></label>
+        </td>
+        <td>
+          <button type="button" class="btn btn-primary" (click)="EditProduct(product)">Изменить</button>
+          <button type="button" class="btn ml-2 btn-warning" (click)="DeleteProduct(product.id)">X</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

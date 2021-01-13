@@ -1,0 +1,40 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-3 col-md-4 bd-sidebar">
+      <div class="mb-4 sticky">
+        <nav class="collapse bd-links" id="bd-docs-nav">
+
+          <div *ngFor="let group of groups" class="bd-toc-item" [class.active]="group.child.length>0"
+              >
+
+              <a *ngIf="group.visible" class="bd-toc-link" [routerLink]="['/group', group.id]" [ngClass]="{'bd-toc-link-active': routeEq('/group/'+group.id)}">
+                {{group.title}}
+              </a>
+
+              <ul class="nav bd-sidenav ml-3">
+                <li *ngFor="let child of group.child" 
+                [ngClass]="{'active bd-sidenav-active': routeEq('/group/'+child.id)}" >
+                  <a *ngIf="child.visible" [routerLink]="['/group', child.id]">
+                    {{child.title}}
+                  </a>
+                </li>
+
+              </ul>
+
+          </div>
+
+        </nav>
+
+        <app-store-filter></app-store-filter>
+
+      </div>
+    </div>
+
+    <div class="col-lg-9 col-md-8 custom_min-height">
+
+      <router-outlet></router-outlet>
+
+    </div>
+    
+  </div>
+</div>

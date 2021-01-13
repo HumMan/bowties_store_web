@@ -1,0 +1,60 @@
+<div *ngIf="visible" class="card">
+  <article class="card-group-item">
+    <header class="card-header">
+      <h6 class="title">Цвет</h6>
+    </header>
+    <div class="filter-content">
+      <div class="card-body">
+        <form class="available-colors__form">
+          <label  class="available-colors__list" *ngFor="let color of availableColors; let i = index"
+           [ngStyle]="{'background-color': color}"
+           [ngClass]="{'available-colors__list_selected': color===currSelected}"
+            (click)="changeSelected(color)"></label>
+          <!-- <label class="form-check">
+            <input class="form-check-input" type="checkbox" value="">
+            <span class="form-check-label">
+              Mersedes Benz
+            </span>
+          </label> -->
+          
+          
+        </form>
+        <button type="button" class="btn btn-light mt-3" (click)="reset()">Сбросить</button>
+
+      </div>
+      <!-- card-body.// -->
+    </div>
+  </article>
+  <!-- card-group-item.// -->
+
+  
+
+  <!-- <article class="card-group-item">
+    <header class="card-header">
+      <h6 class="title">Choose type </h6>
+    </header>
+    <div class="filter-content">
+      <div class="card-body">
+        <label class="form-check">
+          <input class="form-check-input" type="radio" name="exampleRadio" value="">
+          <span class="form-check-label">
+            First hand items
+          </span>
+        </label>
+        <label class="form-check">
+          <input class="form-check-input" type="radio" name="exampleRadio" value="">
+          <span class="form-check-label">
+            Brand new items
+          </span>
+        </label>
+        <label class="form-check">
+          <input class="form-check-input" type="radio" name="exampleRadio" value="">
+          <span class="form-check-label">
+            Some other option
+          </span>
+        </label>
+      </div>
+    </div>
+  </article> -->
+  <!-- card-group-item.// -->
+</div>

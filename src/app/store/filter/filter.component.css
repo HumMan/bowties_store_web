@@ -1,0 +1,35 @@
+.available-colors__list
+{
+    width: 40px;
+    height: 40px;
+    margin: 1px;
+    border: 1px;
+    border-color: black;
+    border-style: solid;
+}
+
+.available-colors__list_selected
+{
+    border: 4px;
+    border-style: solid;
+    animation-name: keyframes;
+    animation-duration: 0.5s;
+    animation-iteration-count: infinite;
+}
+
+.available-colors__form
+{
+    line-height: 0;
+}
+
+@keyframes keyframes {
+    0% {
+      border-color: black;
+    }
+    50% {
+        border-color:red;
+    }
+    100% {
+        border-color: black;
+    }
+  }

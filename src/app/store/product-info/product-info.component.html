@@ -1,0 +1,57 @@
+<div *ngIf="currentProduct">
+  <div class="row">
+    <div class="col-md-6">
+      <img class="image-with-link image-rubber m-1" (click)="openGallery()" src='api/image?id={{selectedImgId}}'>
+      <br>
+      <div *ngIf="currentProduct.images.length>1">
+        <img class="image-with-link m-1" *ngFor="let image of currentProduct.images; let i = index" src='api/image?id={{image.thumbIds[100]}}'
+          (click)="selectImage(i)">
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <form>
+
+        <h6 class="mb-3 title-with-link">{{currentProduct.title}}
+        </h6>
+        <small *ngIf="currentProduct.longDescription" class="text-muted custom-wrap">{{currentProduct.longDescription}}</small>
+
+        <div class="form-group  mt-3" *ngIf="currentProduct.variations && !withoutVariations(currentProduct)">
+          <div *ngFor="let variationParameter of currentProduct.group.variationParameters; let i=index">
+            <label>{{variationParameter.title}}</label>
+            <select name='param{{i}}' class="form-control" (change)="variationParamSelChange(i, variationParameter, $event.target.value)"
+              [(ngModel)]='currentVariationIds[i]'>
+              <option *ngFor="let value of variationParameter.values; let k = index" [value]='value.id'>{{value.title}}</option>
+            </select>
+          </div>
+        </div>
+
+        <div *ngIf="!selectedVariation">
+          <div class="alert alert-danger">Нет в наличии</div>
+        </div>
+
+        <div *ngIf="selectedVariation">
+          <div class="form-group mt-3" *ngIf="!selectedVariation.withoutCount">
+            <div class="text-muted">В наличии: {{selectedVariation.inventoryCount}}</div>
+          </div>
+
+          <div class="form-group">
+            <div class="text-muted">Цена: {{selectedVariation.price}} ₽</div>
+          </div>
+
+          <button type="button" class="btn btn-primary" (click)="addToCart(currentProduct.id, selectedVariation.id)">В корзину</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+<div *ngIf="productNotFound" class="container">
+  <p class="text-center">Данный товар не существует или недоступен</p>
+</div>
+<div *ngIf="error" class="container">
+  <p class="text-center">Ошибка при получении информации о товаре</p>
+</div>
+<div *ngIf="loading" class="container">
+  <p class="text-center"><img src="assets/circle_upload.gif" /></p>
+</div>

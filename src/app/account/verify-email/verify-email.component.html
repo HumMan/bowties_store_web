@@ -1,0 +1,7 @@
+<img class="center-block" *ngIf="!tokenInvalid&&!tokenValid" src="assets/circle_upload.gif" />
+<div *ngIf="tokenInvalid">
+    <h2 class="h3 mb-3 font-weight-normal text-center">Ссылка уже недействительна</h2>
+</div>
+<div *ngIf="tokenValid">
+    <h2 class="h3 mb-3 font-weight-normal text-center">Ваша почта успешно подтверждена</h2>
+</div>

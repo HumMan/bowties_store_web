@@ -1,0 +1,27 @@
+<h2>Группы товаров</h2>
+<button type="button" class="btn btn-primary" (click)="CreateGroup()">Добавить группу</button>
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th></th>
+        <th>Название</th>
+        <th>Подгруппа</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody dragula="GROUPS" [(dragulaModel)]="groups">
+      <tr *ngFor="let group of groups; let i = index">
+        <td><span class="handle">+</span></td>
+        <td><img *ngIf="group.image" src='api/image?id={{group.image.thumbIds[50]}}'></td>
+        <td>{{group.title}}</td>
+        <td>{{group.subtitle}}</td>
+        <td>
+            <button type="button" class="btn btn-primary" (click)="EditGroup(group)">Изменить</button>
+            <button type="button" class="btn" (click)="DeleteGroup(group.id)">X</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

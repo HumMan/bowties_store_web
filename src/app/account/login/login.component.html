@@ -1,0 +1,50 @@
+<form [formGroup]="loginForm" (submit)="onSubmit()" class="form-signin text-center">
+
+  <!-- <img class="mb-4" src="../../assets/brand/bootstrap-solid.svg" alt="" width="72" height="72"> -->
+  <h1 class="h3 mb-3 font-weight-normal">Вход</h1>
+
+  <div class="form-group">
+    <label for="email" class="sr-only">Email address</label>
+    <input type="email" class="form-control" id="email" placeholder="Ваш email" formControlName="email" [ngClass]="{'is-invalid': loginForm.get('email').invalid && (loginForm.get('email').dirty || submitted)}"
+    />
+    <div class="invalid-feedback" *ngIf="loginForm.get('email').hasError('required') && (loginForm.get('email').dirty
+            || submitted)">
+      Необходимо ввести email.
+    </div>
+    <div class="invalid-feedback" *ngIf="loginForm.get('email').hasError('email') && loginForm.get('email').dirty">
+      Введите корректный email
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="password" class="sr-only">Password</label>
+    <input type="password" class="form-control" id="password" placeholder="Пароль" formControlName="password" [ngClass]="{'is-invalid': loginForm.get('password').invalid && (loginForm.get('password').dirty || submitted)}"
+    />
+    <div class="invalid-feedback" *ngIf="loginForm.get('password').hasError('required') &&
+             (loginForm.get('password').dirty || submitted)">
+      Необходимо ввести пароль.
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div #captcha nbRecaptcha key="6Lc_LmcUAAAAAF0qURnDASr1k6zPRDO9uq9exfRM" formControlName="captcha"></div>
+    <div class="invalid-feedback" [ngStyle]="{display: (loginForm.get('captcha').hasError('required') && submitted)?'block':''}">
+      Подтвердите что вы не робот.
+    </div>
+  </div>
+
+  <div class="form-check">
+    <label>
+      <input class="checkbox mb-3" type="checkbox" value="" id="rememberMeCheck" formControlName="rememberMe"> Запомнить меня
+    </label>
+  </div>
+
+  <div class="form-group">
+    <button [disabled]="loading" class="btn btn-lg btn-primary btn-block">Войти</button>
+    <img *ngIf="loading" src="assets/circle_upload.gif" />
+  </div>
+
+  <p><a [routerLink]='["/account/reset"]'>Сбросить пароль</a></p>
+  <p><a [routerLink]='["/account/register"]'>Зарегистрироваться</a></p>
+  <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+</form>

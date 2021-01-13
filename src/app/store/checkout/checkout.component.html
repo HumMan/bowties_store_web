@@ -1,0 +1,197 @@
+<div class="container">
+  <div *ngIf="currentCart && currentCart.items.length>0">
+    <div class="py-5 text-center">
+      <!-- <img class="d-block mx-auto mb-4" src="../../assets/brand/bootstrap-solid.svg" alt="" width="72" height="72"> -->
+      <h2>Оформление заказа</h2>
+      <p class="lead">Заполните все необходимые поля ниже, выберите подходящий вам тип доставки, далее нажмите "Подтвердить заказ", ваши
+        товары будут зарезервированы для вас. Мы вам перезвоним по указанному вами телефону для потверждения заказа.</p>
+    </div>
+
+    <div class="row">
+
+      <div class="col-md-4 order-md-2 mb-4">
+        <h4 class="d-flex justify-content-between align-items-center mb-3">
+          <span class="text-muted">Ваш заказ:</span>
+          <span *ngIf="currentCart" class="badge badge-secondary badge-pill">{{currentCart.items.length}}</span>
+        </h4>
+        <ul class="list-group mb-3" *ngIf="currentCart">
+          <li *ngFor="let item of currentCart.items" class="list-group-item d-flex justify-content-between">
+            <!-- пока не особо смотрится <img width="50" height="50" *ngIf="item.product.images && item.product.images.length>0" src='api/image?id={{item.product.images[0].thumbIds[50]}}'> -->
+            <div>
+              
+              <h6 class="my-0 title-with-link" [routerLink]='["/product", item.productId]'>{{item.title}}
+                <span class="text-muted"> ({{item.count}} шт.)</span>
+              </h6>
+              <small class="text-muted">{{item.product.description}}</small>
+            </div>
+            <span class="text-muted">{{item.price*item.count}} ₽</span>
+          </li>
+          <li *ngIf="deliveryForm.get('type').value==0" class="list-group-item d-flex justify-content-between">
+            <div>
+              <h6 class="my-0">Доставка</h6>
+              <small class="text-muted">Почта России</small>
+            </div>
+            <span class="text-muted">{{currentCart.deliveryPrice}} ₽</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between">
+            <span>Сумма заказа (Руб.)</span>
+            <strong>{{currentCart.itemsTotal + ((deliveryForm.get('type').value==0)?currentCart.deliveryPrice:0)}} ₽</strong>
+          </li>
+        </ul>
+
+        <!-- <form class="card p-2">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Promo code">
+              <div class="input-group-append">
+                <button type="submit" class="btn btn-secondary">Промокод</button>
+              </div>
+            </div>
+          </form> -->
+      </div>
+
+      <div class="col-md-8 order-md-1">
+        <h4 class="mb-3">Контактные данные</h4>
+        <form [formGroup]="contactForm">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="contactEmail">Ваш email</label>
+                <input type="email" formControlName="email" class="form-control" id="contactEmail" placeholder="Email" [ngClass]="{'is-invalid': contactForm.get('email').invalid }">
+                <div class="invalid-feedback" *ngIf="contactForm.get('email').hasError('required')">
+                  Email address is required.
+                </div>
+                <div class="invalid-feedback" *ngIf="contactForm.get('email').hasError('email')">
+                  Please enter a valid email.
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="contactName">Ваше имя
+                  <span class="text-muted">(не обязательно)</span>
+                </label>
+                <input type="text" formControlName="name" class="form-control" id="contactName" placeholder="">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <!-- <div class="col-md-6 mb-3">
+              <div class="form-group">
+                <label for="contactVKid">Аккаунт VK
+                  <span class="text-muted">(если имеется)</span>
+                </label>
+                <input type="text" formControlName="accountVK" class="form-control" id="contactVKid" placeholder="https://vk.com/nickname">
+              </div>
+            </div> -->
+            <div class="col-md-6 mb-3">
+              <div class="form-group">
+                <label for="contactPhone">Телефон
+                  <span class="text-muted">(необходим для подтверждения)</span>
+                </label>
+                <input type="text" formControlName="phone" class="form-control" id="contactPhone" placeholder="8-900-800-9999" [ngClass]="{'is-invalid': contactForm.get('phone').invalid }">
+              </div>
+            </div>
+          </div>
+        </form>
+
+        <form [formGroup]="deliveryForm">
+          <h4 class="mb-3">Выберите тип доставки</h4>
+          <div class="form-group">
+            <!-- пример использования кастомных контролов (+ custom-control-label окрашивается в зелёный если валидация верна) -->
+            <!-- <div class="custom-control custom-radio">
+            <input class="custom-control-input" type="radio" id="deliveryRadios1" formControlName="type" value="1">
+            <label class="custom-control-label" for="deliveryRadios1">
+              Почта России
+            </label>
+          </div> -->
+            <div class="form-check">
+              <input class="form-check-input" type="radio" id="deliveryRadios1" formControlName="type" value="0">
+              <label class="form-check-label" for="deliveryRadios1">
+                Почта России
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" id="deliveryRadios2" formControlName="type" value="1">
+              <label class="form-check-label" for="deliveryRadios2">
+                Самовывоз (г. Дубна/г. Кимры)
+              </label>
+            </div>
+          </div>
+          <div class="form-group" *ngIf="deliveryForm.get('type').value==1">
+            <label for="otherInfoId">Примечания и пожелания к доставке.</label>
+            <textarea class="form-control" id="otherInfoId" rows="3" formControlName="otherInfo"></textarea>
+          </div>
+        </form>
+        <hr class="mb-4">
+        <form [formGroup]="adressForm">
+          <div *ngIf="deliveryForm.get('type').value==0">
+            <h4 class="mb-3">Адрес доставки</h4>
+            <div class="row">
+              <div class="form-group col-md-3">
+                <label for="adressPostalCode">Индекс</label>
+                <input type="text" formControlName="postalCode" class="form-control" id="adressPostalCode" placeholder="Индекс" [ngClass]="{'is-invalid': adressForm.get('postalCode').invalid }">
+              </div>
+              <div class="form-group col-md-9">
+                <label for="adress">Адрес</label>
+                <input type="text" formControlName="adress" class="form-control" id="adress" placeholder="Адрес" [ngClass]="{'is-invalid': adressForm.get('adress').invalid }">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6 mb-3">
+                <label for="adressRegion">Область</label>
+                <input type="text" formControlName="adressRegion" class="form-control" id="adressRegion" placeholder="Область" [ngClass]="{'is-invalid': adressForm.get('adressRegion').invalid }">
+              </div>
+              <div class="form-group col-md-6 mb-3">
+                <label for="adressCity">Город</label>
+                <input type="text" formControlName="adressCity" class="form-control" id="adressCity" placeholder="Город" [ngClass]="{'is-invalid': adressForm.get('adressCity').invalid }">
+              </div>
+            </div>
+          </div>
+        </form>
+        <hr class="mb-4">
+        <form [formGroup]="paymentForm" (submit)="onSubmit()">
+          <h4>Выберите способ оплаты</h4>
+          <div class="form-group">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" formControlName="type" id="paymentRadios2" value="0">
+              <label class="form-check-label" for="paymentRadios2">
+                Через Яндекс.Кошелёк
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" formControlName="type" id="paymentRadios3" value="1">
+              <label class="form-check-label" for="paymentRadios3">
+                Банковской картой
+              </label>
+            </div>
+            <div class="form-check" *ngIf="deliveryForm.get('type').value==1">
+              <input class="form-check-input" type="radio" formControlName="type" id="paymentRadios4" value="2">
+              <label class="form-check-label" for="paymentRadios4">
+                Наличными при получении
+              </label>
+            </div>
+            <div class="invalid-feedback" [ngStyle]="{'display': paymentForm.get('type').invalid?'block':'' }">
+              Необходимо выбрать тип оплаты.
+            </div>
+          </div>
+          <hr class="mb-4">
+          <div class="form-group">
+            <button [disabled]="loading" type="submit" class="btn btn-primary btn-lg btn-block">
+              <div *ngIf="needPaymentNow()">Перейти к оплате</div>
+              <div *ngIf="!needPaymentNow()">Подтвердить заказ</div>
+            </button>
+            <img *ngIf="loading" src="assets/circle_upload.gif" />
+            <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+  <div *ngIf="!currentCart || currentCart.items.length===0">
+    <div class="py-5 text-center">
+      <p class="lead">Перед потверждением заказа нужно добавить товары в корзину.</p>
+    </div>
+  </div>
+</div>

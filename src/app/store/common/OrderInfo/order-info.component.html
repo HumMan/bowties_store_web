@@ -1,0 +1,84 @@
+<div *ngIf="order">
+    <h6 class="mb-3">Номер заказа:
+        <small>{{order.orderId}}</small>
+    </h6>
+
+    <h6 class="mb-3">Статус заказа:
+        <small>{{toOrderStatusReadable(order.status)}}</small>
+    </h6>
+
+    <h5 class="mb-3">Контактные данные</h5>
+    <div class="row">
+        <div class="col-md-6">
+            <h6>Ваш email:
+                <small>{{order.parameters.email}}</small>
+            </h6>
+        </div>
+        <div class="col-md-6">
+            <h6>Ваше имя:
+                <small>{{order.parameters.name}}</small>
+                <small *ngIf="empty(order.parameters.name)" class="text-muted">не указано</small>
+            </h6>
+        </div>
+    </div>
+    <div class="row">
+        <!-- <div class="col-md-6 mb-3">
+            <h6>Аккаунт VK:
+                <small>{{order.parameters.vkAccount}}</small>
+                <small *ngIf="empty(order.parameters.vkAccount)" class="text-muted">не указано</small>
+            </h6>
+        </div> -->
+        <div class="col-md-6 mb-3">
+            <h6>Телефон:
+                <small>{{order.parameters.phone}}</small>
+            </h6>
+        </div>
+    </div>
+
+
+
+    <h6 class="mb-3">Тип доставки:
+        <small>{{toDeliveryTypeReadable(order.parameters.deliveryType)}}</small>
+    </h6>
+
+    <div *ngIf="order.parameters.deliveryType==1">
+        <label for="otherInfoId">Примечания и пожелания к доставке:</label>
+        <textarea disabled class="form-control mb-3" rows="3">{{order.parameters.otherInfo}}</textarea>
+    </div>
+    <div *ngIf="order.parameters.deliveryType==0">
+        <h5 class="mb-3">Адрес доставки:</h5>
+        <div class="row">
+            <div class="col-md-6">
+                <h6>Индекс:
+                    <small>{{order.parameters.deliveryAddress.postalCode}}</small>
+                </h6>
+
+            </div>
+            <div class="col-md-6">
+                <h6>Адрес:
+                    <small>{{order.parameters.deliveryAddress.address}}</small>
+                </h6>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <h6>Область:
+                    <small>{{order.parameters.deliveryAddress.region}}</small>
+                </h6>
+
+            </div>
+            <div class="col-md-6 mb-3">
+                <h6>Город:
+                    <small>{{order.parameters.deliveryAddress.city}}</small>
+                </h6>
+
+            </div>
+        </div>
+
+    </div>
+    <h6 class="mb-3">Cпособ оплаты:
+        <small>{{toPaymentTypeReadable(order.parameters.paymentType)}}</small>
+    </h6>
+
+</div>

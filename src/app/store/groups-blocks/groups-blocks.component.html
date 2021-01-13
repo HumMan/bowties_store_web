@@ -1,0 +1,31 @@
+<div class="row">
+
+  <!-- <div *ngFor="let group of groups" class="col-lg-4 col-md-6 col-sm-6">
+        <div class="card mb-4 box-shadow mx-auto" style="width:227px">
+            <a [routerLink]='["/group", group.id]'>
+              <img class="card-img-top" width="200" height="200" 
+              *ngIf="group.image" src='api/image?id={{group.image.thumbIds[200]}}'>
+            </a>
+          <div class="card-body">
+            <p class="card-text" [routerLink]='["/group", group.id]'>{{group.title}}</p>
+          </div>
+        </div>
+      </div> -->
+
+  <div *ngIf="loading" class="container">
+    <p class="text-center">
+      <img src="assets/circle_upload.gif" />
+    </p>
+  </div>
+  <div *ngIf="error" class="container">
+    <p class="text-center">Ошибка при получении списка разделов</p>
+  </div>
+  <div *ngFor="let group of groups" class="col-sm-6 col-md-4 col-xl-3 mb-3 text-center">
+    <a [routerLink]='["/group", group.id]'>
+      <img *ngIf="group.image" class="img-thumbnail mb-3" src="api/image?id={{group.image.thumbIds[400]}}" width="200" height="200">
+      <h5 class="mb-1">{{group.title}} {{group?.subtitle}}</h5>
+    </a>
+    <!-- <p class="text-muted">Описание раздела TODO</p> -->
+  </div>
+
+</div>
