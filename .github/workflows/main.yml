@@ -18,5 +18,4 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
-    - run: sudo mkdir -p /var/www/bowties_jameskot/wwwroot
     - run: npm run build
