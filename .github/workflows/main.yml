@@ -18,5 +18,5 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
-    - run: mkdir /var/www/bowties_jameskot/wwwroot
+    - run: mkdir -p /var/www/bowties_jameskot/wwwroot
     - run: npm run build
