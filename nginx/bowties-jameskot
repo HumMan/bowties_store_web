@@ -1,0 +1,27 @@
+
+server {
+
+	listen 8085 default_server;
+
+	server_name  localhost;
+	client_max_body_size 20M;
+
+	location / {
+		#if using 'npm run build'
+		#and angular.json "outputPath": "/var/www/bowties_jameskot/wwwroot",
+		#root '/var/www/bowties_jameskot/wwwroot';
+		#try_files $uri $uri/ /index.html;
+
+		#if using 'npm run'
+		proxy_pass http://127.0.0.1:4200;
+	}
+
+	location /api {
+		proxy_pass http://127.0.0.1:58943;
+	}
+
+	location /swagger {
+		proxy_pass http://127.0.0.1:58943;
+	}
+}
+
