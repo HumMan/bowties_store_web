@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Product, ProductService, VariationParameter, ProductVariation, VariationId, CartService } from '../../client';
+import { Product, ProductService, VariationParameter, ProductVariation, VariationId } from '../../client';
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import { PhotoSwipeService, PhotoSwipeImage } from '../../services/photo-swipe.service';
@@ -66,7 +66,7 @@ export class StoreProductInfoComponent extends ProductHelper implements OnInit, 
 
         this.meta.updateTag({ name: 'title', content: product.title });
         this.meta.updateTag({ property: 'og:title', content: product.title });
-        this.meta.updateTag({ property: 'og:image', content: 'https://jameskot.ru/api/image?id=' + product.images[0].thumbIds[200] });
+        this.meta.updateTag({ property: 'og:image', content: 'https://cdn.jameskot.ru/thumbs/200/{{product.images[0]}}.jpg' });
         this.meta.updateTag({ property: 'og:image:width', content: '200' });
         this.meta.updateTag({ property: 'og:image:height', content: '200' });
 

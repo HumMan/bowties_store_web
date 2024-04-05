@@ -14,7 +14,7 @@
 
   <div *ngIf="loading" class="container">
     <p class="text-center">
-      <img src="assets/circle_upload.gif" />
+      <img src="/static/assets/circle_upload.gif" />
     </p>
   </div>
   <div *ngIf="error" class="container">
@@ -22,7 +22,7 @@
   </div>
   <div *ngFor="let group of groups" class="col-sm-6 col-md-4 col-xl-3 mb-3 text-center">
     <a [routerLink]='["/group", group.id]'>
-      <img *ngIf="group.image" class="img-thumbnail mb-3" src="api/image?id={{group.image.thumbIds[400]}}" width="200" height="200">
+      <img *ngIf="group.image" class="img-thumbnail mb-3" src="https://cdn.jameskot.ru/thumbs/400/{{group.image}}.jpg" width="200" height="200">
       <h5 class="mb-1">{{group.title}} {{group?.subtitle}}</h5>
     </a>
     <!-- <p class="text-muted">Описание раздела TODO</p> -->

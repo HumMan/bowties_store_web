@@ -22,7 +22,7 @@
 
     <div class="form-group" >
         <input #file type="file" (change)="uploadImages(file.files)" [disabled]="uploading" />
-        <img *ngIf="uploading" src="assets/circle_upload.gif" />
+        <img *ngIf="uploading" src="/static/assets/circle_upload.gif" />
       </div>
       <div class="form-group" *ngIf="currentGroup && currentGroup.image">
         <img src='api/image?id={{currentGroup.image.thumbIds[100]}}'>

@@ -2,7 +2,7 @@
 <div class="row">
   <div *ngIf="loading" class="container">
     <p class="text-center">
-      <img src="assets/circle_upload.gif" />
+      <img src="/static/assets/circle_upload.gif" />
     </p>
   </div>
   <div *ngIf="error" class="container">
@@ -12,7 +12,7 @@
     <div class="card mb-4 box-shadow mx-auto custom_card">
       <a [routerLink]='["/product", product.id]'>
         <img class="card-img-top custom_card-img-top" width="250" height="250" *ngIf="product.images && product.images.length>0"
-          src='api/image?id={{product.images[0].thumbIds[250]}}'>
+          src='https://cdn.jameskot.ru/thumbs/250/{{product.images[0]}}.jpg'>
       </a>
       <div class="card-body">
         <p class="card-text">{{product.title}}</p>

@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { AdminMainComponent } from './admin-main/admin-main.component';
-import { AdminCartsComponent } from './carts/carts.component';
 import { AdminGroupsComponent } from './groups/groups.component';
 import { AdminGroupEditComponent } from './groups/edit/edit-group.component';
 import { AdminOrdersComponent } from './orders/orders.component';
@@ -20,7 +19,6 @@ import { AdminSettingsComponent } from './settings/settings.component';
 @NgModule({
   declarations: [
     AdminMainComponent,
-    AdminCartsComponent,
     AdminGroupsComponent,
     AdminGroupEditComponent,
     AdminOrdersComponent,
@@ -41,7 +39,6 @@ import { AdminSettingsComponent } from './settings/settings.component';
     AdminRoutingModule,
     ReactiveFormsModule,
     FormsModule,
-    NgbModule.forRoot(),
     DragulaModule.forRoot()
   ]
 })

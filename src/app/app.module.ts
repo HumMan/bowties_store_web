@@ -89,7 +89,7 @@ import { BrowserModule } from '@angular/platform-browser';
     ApiModule,
     ReactiveFormsModule,
     FormsModule,
-    NgbModule.forRoot(),
+    NgbModule,
     RouterModule.forRoot([
       // TODO tip не забываем что все маршруты еще прописаны в nginx/siteconf для правильного возврата 404
       {

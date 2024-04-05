@@ -180,7 +180,7 @@
               <div *ngIf="needPaymentNow()">Перейти к оплате</div>
               <div *ngIf="!needPaymentNow()">Подтвердить заказ</div>
             </button>
-            <img *ngIf="loading" src="assets/circle_upload.gif" />
+            <img *ngIf="loading" src="/static/assets/circle_upload.gif" />
             <div *ngIf="error" class="alert alert-danger">{{error}}</div>
           </div>
         </form>

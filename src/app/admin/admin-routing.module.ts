@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { AdminMainComponent } from './admin-main/admin-main.component';
-import { AdminCartsComponent } from './carts/carts.component';
 import { AdminGroupsComponent } from './groups/groups.component';
 import { AdminOrdersComponent } from './orders/orders.component';
 import { AdminProductsComponent } from './products/products.component';
@@ -23,7 +22,6 @@ const routes: Routes = [
         data: { role: User.RoleEnum.Admin },
       },
       { path: 'orders', component: AdminOrdersComponent },
-      { path: 'carts', component: AdminCartsComponent },
       { path: 'settings', component: AdminSettingsComponent },
       { path: '**', component: AdminProductsComponent }
     ]

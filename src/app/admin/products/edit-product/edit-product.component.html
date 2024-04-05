@@ -52,7 +52,7 @@
     </div>
     <div class="form-group">
       <input #file type="file" multiple (change)="uploadImages(file.files)" [disabled]="uploading" />
-      <img *ngIf="uploading" src="assets/circle_upload.gif" />
+      <img *ngIf="uploading" src="/static/assets/circle_upload.gif" />
     </div>
     <div class="form-group" class="container" dragula="PRODUCT_IMAGES" [(dragulaModel)]="currentProduct.images">
       <div *ngFor="let image of currentProduct.images; let i = index">
